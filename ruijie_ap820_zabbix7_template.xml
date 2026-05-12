@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>e60fcb5a401a4050bfac22384a300ac3</uuid>
+            <name>Templates/Network Devices</name>
+        </template_group>
+        <template_group>
+            <uuid>1d2fe2cecc2f46f9af9cb15f678707c0</uuid>
+            <name>Templates/Wireless</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>668038b3101c42e492ed2916cd4c8415</uuid>
+            <template>Template SNMP Ruijie AP820-L V3</template>
+            <name>Template SNMP Ruijie AP820-L V3</name>
+            <description>SNMP monitoring for Ruijie RG-AP820-L(V3) Wi-Fi 6. All OIDs confirmed from live snmpwalk on RGOS 11.9(6)W3B1P3. ifIndex 1=Gi0/1 2=Do1/0(2.4G) 4=Do2/0(5G). Community: AccessPoint1!</description>
+            <groups>
+                <group><name>Templates/Network Devices</name></group>
+                <group><name>Templates/Wireless</name></group>
+            </groups>
+            <macros>
+                <macro><macro>{$SNMP_COMMUNITY}</macro><value>AccessPoint1!</value><description>SNMPv2c community string</description></macro>
+                <macro><macro>{$ICMP_LOSS_WARN}</macro><value>20</value><description>Packet loss % WARNING threshold</description></macro>
+                <macro><macro>{$ICMP_LATENCY_WARN}</macro><value>150</value><description>Latency ms WARNING threshold</description></macro>
+                <macro><macro>{$REBOOT_UPTIME}</macro><value>600</value><description>Uptime seconds below which reboot alert fires</description></macro>
+                <macro><macro>{$RAM_USED_MAX}</macro><value>80</value><description>RAM used % WARNING threshold</description></macro>
+            </macros>
+            <items>
+                <item>
+                    <uuid>9d47afaa23aa4d56aa673fffc7c6d0ed</uuid>
+                    <name>ICMP: Ping (Reachability)</name>
+                    <type>SIMPLE</type>
+                    <key>icmpping</key>
+                    <delay>30s</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <description>Returns 1=up 0=down</description>
+                    <valuemap><name>Service state</name></valuemap>
+                </item>
+                <item>
+                    <uuid>2e6469bc1c4e4dcb90efc54f46c9249c</uuid>
+                    <name>ICMP: Round-Trip Latency (ms)</name>
+                    <type>SIMPLE</type>
+                    <key>icmppingsec</key>
+                    <delay>60s</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>FLOAT</value_type>
+                    <units>ms</units>
+                    <description>Avg ICMP round-trip time</description>
+                </item>
+                <item>
+                    <uuid>23c51a04aa0a4fb28eda698d67b47262</uuid>
+                    <name>ICMP: Packet Loss (%)</name>
+                    <type>SIMPLE</type>
+                    <key>icmppingloss</key>
+                    <delay>60s</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>% ICMP packets lost</description>
+                </item>
+                <item>
+                    <uuid>5b205c32faa24245be2d988e0c3a80af</uuid>
+                    <name>SNMP: Agent Availability</name>
+                    <type>INTERNAL</type>
+                    <key>zabbix[host,snmp,available]</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <description>0=available 1=unavailable 2=unknown</description>
+                    <valuemap><name>zabbix.host.available</name></valuemap>
+                </item>
+                <item>
+                    <uuid>764b505f9e894319bb63f46f3e74595e</uuid>
+                    <name>System: Description</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.1.1.0</snmp_oid>
+                    <key>system.descr</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>sysDescr.0 Confirmed: Ruijie AP820-L(V3) RGOS 11.9(6)W3B1P3</description>
+                </item>
+                <item>
+                    <uuid>44993d0edc93480482541c041f2f7220</uuid>
+                    <name>System: Uptime</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.1.3.0</snmp_oid>
+                    <key>system.uptime</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>uptime</units>
+                    <description>sysUpTime.0 converted to seconds</description>
+                    <preprocessing><step><type>MULTIPLIER</type><parameters><parameter>0.01</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>2e3b343139ab41bdab82f361fcb2ab38</uuid>
+                    <name>System: Hostname</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.1.5.0</snmp_oid>
+                    <key>system.name</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>sysName.0 Confirmed: TIK_DEPAN_PERPUS_820_20042026</description>
+                </item>
+                <item>
+                    <uuid>3862c0896c2e4c008fb6f8ff55ce40f0</uuid>
+                    <name>System: Location</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.1.6.0</snmp_oid>
+                    <key>system.location</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>sysLocation.0</description>
+                </item>
+                <item>
+                    <uuid>a45bc80928a340d4994e577cd5874710</uuid>
+                    <name>System: Contact</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.1.4.0</snmp_oid>
+                    <key>system.contact</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>sysContact.0</description>
+                </item>
+                <item>
+                    <uuid>fd4047fce08842ee8a7a0680562dbf67</uuid>
+                    <name>Ruijie: RGOS Firmware Version</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.4881.1.1.10.2.1.1.2.0</snmp_oid>
+                    <key>ruijie.firmware.version</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>Confirmed: AP_RGOS 11.9(6)W3B1P3</description>
+                </item>
+                <item>
+                    <uuid>1547c1728b8547a6ba7bf13f4cc34373</uuid>
+                    <name>Ruijie: Serial Number</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.4881.1.1.10.2.1.1.24.0</snmp_oid>
+                    <key>ruijie.serial.number</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>Confirmed: G1UQ579016651</description>
+                </item>
+                <item>
+                    <uuid>d841fe468a9f40e988f873ad3013e32c</uuid>
+                    <name>Ruijie: Model Name</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.4881.1.1.10.2.1.1.26.0</snmp_oid>
+                    <key>ruijie.model.name</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>Confirmed: AP820-L(V3)</description>
+                </item>
+                <item>
+                    <uuid>2d64aed275a3462b80c5404171f26343</uuid>
+                    <name>Ruijie: Total RAM (MB)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.4881.1.1.10.2.1.1.37.0</snmp_oid>
+                    <key>ruijie.ram.total</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>MB</units>
+                    <description>Confirmed: 512 MB</description>
+                </item>
+                <item>
+                    <uuid>b920253e26044941977df88315c7180e</uuid>
+                    <name>Ruijie: Free RAM (MB)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.4881.1.1.10.2.1.1.38.0</snmp_oid>
+                    <key>ruijie.ram.free</key>
+                    <delay>3m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>MB</units>
+                    <description>Confirmed: 127 MB free</description>
+                </item>
+                <item>
+                    <uuid>b2f88b1780f74902af03868edabb4fae</uuid>
+                    <name>Ruijie: Device Uptime</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.4.1.4881.1.1.10.2.1.1.45.0</snmp_oid>
+                    <key>ruijie.device.uptime</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>uptime</units>
+                    <description>Ruijie uptime OID converted to seconds</description>
+                    <preprocessing><step><type>MULTIPLIER</type><parameters><parameter>0.01</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>f42abf7d90164739b6c5f9cda1e11226</uuid>
+                    <name>Uplink (Gi0/1): Operational Status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.2.2.1.8.1</snmp_oid>
+                    <key>if.uplink.status</key>
+                    <delay>30s</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <description>ifOperStatus.1 1=up 2=down 7=lowerLayerDown</description>
+                    <valuemap><name>IF-MIB ifOperStatus</name></valuemap>
+                </item>
+                <item>
+                    <uuid>56c28aa297fc41df9710491c67fe0d28</uuid>
+                    <name>Uplink (Gi0/1): Traffic In (bps)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.31.1.1.1.6.1</snmp_oid>
+                    <key>if.uplink.in.bps</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>bps</units>
+                    <description>ifHCInOctets.1 64-bit rate x8</description>
+                    <preprocessing><step><type>CHANGE_PER_SECOND</type><parameters><parameter/></parameters></step><step><type>MULTIPLIER</type><parameters><parameter>8</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>932e21e6424848f0b9e8a73d1e52c8e9</uuid>
+                    <name>Uplink (Gi0/1): Traffic Out (bps)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.31.1.1.1.10.1</snmp_oid>
+                    <key>if.uplink.out.bps</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>bps</units>
+                    <description>ifHCOutOctets.1 64-bit rate x8</description>
+                    <preprocessing><step><type>CHANGE_PER_SECOND</type><parameters><parameter/></parameters></step><step><type>MULTIPLIER</type><parameters><parameter>8</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>0735d9e3c67247cca07b218fa5ff92b2</uuid>
+                    <name>Radio 2.4GHz (Do1/0): Operational Status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.2.2.1.8.2</snmp_oid>
+                    <key>if.radio24.status</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <description>ifOperStatus.2 1=up 2=down</description>
+                    <valuemap><name>IF-MIB ifOperStatus</name></valuemap>
+                </item>
+                <item>
+                    <uuid>24a1daeca9cc46919d6ea588a1eb3ced</uuid>
+                    <name>Radio 2.4GHz (Do1/0): Traffic In (bps)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.31.1.1.1.6.2</snmp_oid>
+                    <key>if.radio24.in.bps</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>bps</units>
+                    <description>ifHCInOctets.2 traffic FROM 2.4GHz clients</description>
+                    <preprocessing><step><type>CHANGE_PER_SECOND</type><parameters><parameter/></parameters></step><step><type>MULTIPLIER</type><parameters><parameter>8</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>c9a0cd4d0bb241e4ab6f698c3409e5f1</uuid>
+                    <name>Radio 2.4GHz (Do1/0): Traffic Out (bps)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.31.1.1.1.10.2</snmp_oid>
+                    <key>if.radio24.out.bps</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>bps</units>
+                    <description>ifHCOutOctets.2 traffic TO 2.4GHz clients</description>
+                    <preprocessing><step><type>CHANGE_PER_SECOND</type><parameters><parameter/></parameters></step><step><type>MULTIPLIER</type><parameters><parameter>8</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>d69db96bd4194d3e9aae03c2d1c1e658</uuid>
+                    <name>Radio 5GHz (Do2/0): Operational Status</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.2.2.1.8.4</snmp_oid>
+                    <key>if.radio5.status</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <description>ifOperStatus.4 1=up 2=down Wi-Fi 6</description>
+                    <valuemap><name>IF-MIB ifOperStatus</name></valuemap>
+                </item>
+                <item>
+                    <uuid>85c1e3d0a6e14a14b377d4f8a0978535</uuid>
+                    <name>Radio 5GHz (Do2/0): Traffic In (bps)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.31.1.1.1.6.4</snmp_oid>
+                    <key>if.radio5.in.bps</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>bps</units>
+                    <description>ifHCInOctets.4 traffic FROM 5GHz clients</description>
+                    <preprocessing><step><type>CHANGE_PER_SECOND</type><parameters><parameter/></parameters></step><step><type>MULTIPLIER</type><parameters><parameter>8</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>515b64bfb9bd4b21ac7d31c4927c54fd</uuid>
+                    <name>Radio 5GHz (Do2/0): Traffic Out (bps)</name>
+                    <type>SNMP_AGENT</type>
+                    <snmp_oid>1.3.6.1.2.1.31.1.1.1.10.4</snmp_oid>
+                    <key>if.radio5.out.bps</key>
+                    <delay>1m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>UNSIGNED</value_type>
+                    <units>bps</units>
+                    <description>ifHCOutOctets.4 traffic TO 5GHz clients</description>
+                    <preprocessing><step><type>CHANGE_PER_SECOND</type><parameters><parameter/></parameters></step><step><type>MULTIPLIER</type><parameters><parameter>8</parameter></parameters></step></preprocessing>
+                </item>
+                <item>
+                    <uuid>93462af3358445e999ae79c9afa9cd69</uuid>
+                    <name>Ruijie: RAM Used (%)</name>
+                    <type>CALCULATED</type>
+                    <key>ruijie.ram.used.pct</key>
+                    <delay>3m</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <params>(last(//ruijie.ram.total)-last(//ruijie.ram.free))/last(//ruijie.ram.total)*100</params>
+                    <description>(Total-Free)/Total*100</description>
+                </item>
+            </items>
+            <valuemaps>
+                <valuemap>
+                    <uuid>38e523a642044fc28e02c45e8c87f518</uuid>
+                    <name>Service state</name>
+                    <mappings>
+                        <mapping><value>0</value><newvalue>Down</newvalue></mapping>
+                        <mapping><value>1</value><newvalue>Up</newvalue></mapping>
+                    </mappings>
+                </valuemap>
+                <valuemap>
+                    <uuid>aeda74d8edec49d68a60ff262a533667</uuid>
+                    <name>IF-MIB ifOperStatus</name>
+                    <mappings>
+                        <mapping><value>1</value><newvalue>up</newvalue></mapping>
+                        <mapping><value>2</value><newvalue>down</newvalue></mapping>
+                        <mapping><value>3</value><newvalue>testing</newvalue></mapping>
+                        <mapping><value>4</value><newvalue>unknown</newvalue></mapping>
+                        <mapping><value>5</value><newvalue>dormant</newvalue></mapping>
+                        <mapping><value>6</value><newvalue>notPresent</newvalue></mapping>
+                        <mapping><value>7</value><newvalue>lowerLayerDown</newvalue></mapping>
+                    </mappings>
+                </valuemap>
+                <valuemap>
+                    <uuid>7fc7183fda3944ad936500804135ef7d</uuid>
+                    <name>zabbix.host.available</name>
+                    <mappings>
+                        <mapping><value>0</value><newvalue>available</newvalue></mapping>
+                        <mapping><value>1</value><newvalue>unavailable</newvalue></mapping>
+                        <mapping><value>2</value><newvalue>unknown</newvalue></mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+    <triggers>
+        <trigger>
+            <uuid>27795d22a609498e9c098deff15c6bfc</uuid>
+            <expression>max(/Template SNMP Ruijie AP820-L V3/icmpping,#3)=0</expression>
+            <name>AP is UNREACHABLE - ICMP failed 3 times in a row</name>
+            <priority>DISASTER</priority>
+            <manual_close>NO</manual_close>
+            <description>AP not responding to 3 pings. Check PoE switch port, cable, upstream switch.</description>
+            <tags><tag><tag>scope</tag><value>availability</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>e2cb16008a844061984a1fbab0799922</uuid>
+            <expression>last(/Template SNMP Ruijie AP820-L V3/zabbix[host,snmp,available])=1</expression>
+            <name>AP: SNMP agent unreachable</name>
+            <priority>HIGH</priority>
+            <manual_close>YES</manual_close>
+            <description>ICMP OK but SNMP failing. Check community (AccessPoint1!), SNMP enabled, UDP 161 open.</description>
+            <dependencies>
+                <dependency>
+                    <name>AP is UNREACHABLE - ICMP failed 3 times in a row</name>
+                    <expression>max(/Template SNMP Ruijie AP820-L V3/icmpping,#3)=0</expression>
+                </dependency>
+            </dependencies>
+            <tags><tag><tag>scope</tag><value>availability</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>5c81b501fe234fe9a0f7fc44307ba113</uuid>
+            <expression>last(/Template SNMP Ruijie AP820-L V3/if.uplink.status)=2</expression>
+            <name>AP: Wired uplink port (Gi0/1) is DOWN</name>
+            <priority>HIGH</priority>
+            <manual_close>NO</manual_close>
+            <description>GigabitEthernet 0/1 ifOperStatus=down. PoE link lost. Check switch port and cable.</description>
+            <dependencies>
+                <dependency>
+                    <name>AP is UNREACHABLE - ICMP failed 3 times in a row</name>
+                    <expression>max(/Template SNMP Ruijie AP820-L V3/icmpping,#3)=0</expression>
+                </dependency>
+            </dependencies>
+            <tags><tag><tag>scope</tag><value>availability</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>5911f8254bc14a14909239a765804ad9</uuid>
+            <expression>last(/Template SNMP Ruijie AP820-L V3/if.radio5.status)=2</expression>
+            <name>AP: 5GHz radio (Do2/0) is DOWN</name>
+            <priority>HIGH</priority>
+            <manual_close>YES</manual_close>
+            <description>Dot11radio 2/0 down. Wi-Fi 6 clients cannot connect.</description>
+            <tags><tag><tag>scope</tag><value>availability</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>4ca8d84cf391410f81a74eb3486d7c14</uuid>
+            <expression>last(/Template SNMP Ruijie AP820-L V3/if.radio24.status)=2</expression>
+            <name>AP: 2.4GHz radio (Do1/0) is DOWN</name>
+            <priority>AVERAGE</priority>
+            <manual_close>YES</manual_close>
+            <description>Dot11radio 1/0 down. 2.4GHz clients cannot connect.</description>
+            <tags><tag><tag>scope</tag><value>availability</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>a5194fa4a9e6480c9c85fc10da8fede9</uuid>
+            <expression>last(/Template SNMP Ruijie AP820-L V3/system.uptime) &lt; {$REBOOT_UPTIME} and last(/Template SNMP Ruijie AP820-L V3/system.uptime) &gt; 0</expression>
+            <name>AP: Device rebooted (uptime below {$REBOOT_UPTIME}s)</name>
+            <priority>AVERAGE</priority>
+            <manual_close>YES</manual_close>
+            <description>sysUpTime below threshold. AP recently rebooted. Check PoE and AP logs if unexpected.</description>
+            <tags><tag><tag>scope</tag><value>availability</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>183441c8612c4f5cb0d28fc5eb08aa38</uuid>
+            <expression>last(/Template SNMP Ruijie AP820-L V3/ruijie.ram.used.pct) &gt; {$RAM_USED_MAX}</expression>
+            <name>AP: RAM usage above {$RAM_USED_MAX}% ({ITEM.LASTVALUE})</name>
+            <priority>WARNING</priority>
+            <manual_close>YES</manual_close>
+            <description>RAM above threshold. AP820-L(V3) has 512 MB total.</description>
+            <dependencies>
+                <dependency>
+                    <name>AP is UNREACHABLE - ICMP failed 3 times in a row</name>
+                    <expression>max(/Template SNMP Ruijie AP820-L V3/icmpping,#3)=0</expression>
+                </dependency>
+            </dependencies>
+            <tags><tag><tag>scope</tag><value>performance</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>509bc26bbe3f4f0ebdd39775d2dde704</uuid>
+            <expression>min(/Template SNMP Ruijie AP820-L V3/icmppingloss,3m) &gt; {$ICMP_LOSS_WARN}</expression>
+            <name>AP: High ICMP packet loss ({ITEM.LASTVALUE} &gt; {$ICMP_LOSS_WARN}%)</name>
+            <priority>WARNING</priority>
+            <manual_close>YES</manual_close>
+            <description>Packet loss above threshold for 3 min. Check PoE budget and cable.</description>
+            <dependencies>
+                <dependency>
+                    <name>AP is UNREACHABLE - ICMP failed 3 times in a row</name>
+                    <expression>max(/Template SNMP Ruijie AP820-L V3/icmpping,#3)=0</expression>
+                </dependency>
+            </dependencies>
+            <tags><tag><tag>scope</tag><value>performance</value></tag></tags>
+        </trigger>
+        <trigger>
+            <uuid>fdf523e216c24664b541b094f8dd7c9b</uuid>
+            <expression>avg(/Template SNMP Ruijie AP820-L V3/icmppingsec,3m) &gt; {$ICMP_LATENCY_WARN}</expression>
+            <name>AP: High ICMP latency ({ITEM.LASTVALUE} &gt; {$ICMP_LATENCY_WARN}ms)</name>
+            <priority>WARNING</priority>
+            <manual_close>YES</manual_close>
+            <description>Round-trip above threshold for 3 min. Check network congestion and AP CPU.</description>
+            <dependencies>
+                <dependency>
+                    <name>AP is UNREACHABLE - ICMP failed 3 times in a row</name>
+                    <expression>max(/Template SNMP Ruijie AP820-L V3/icmpping,#3)=0</expression>
+                </dependency>
+            </dependencies>
+            <tags><tag><tag>scope</tag><value>performance</value></tag></tags>
+        </trigger>
+    </triggers>
+    <graphs>
+        <graph>
+            <uuid>518f983a214144efb0d92f12cccda534</uuid>
+            <name>AP: ICMP Latency and Packet Loss</name>
+            <graph_items>
+                <graph_item><sortorder>0</sortorder><color>00AADD</color><yaxisside>LEFT</yaxisside><item><host>Template SNMP Ruijie AP820-L V3</host><key>icmppingsec</key></item></graph_item>
+                <graph_item><sortorder>1</sortorder><color>FF4444</color><yaxisside>RIGHT</yaxisside><item><host>Template SNMP Ruijie AP820-L V3</host><key>icmppingloss</key></item></graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>2b3ef570be8444bc8d52a2d31fd5f4ae</uuid>
+            <name>AP: RAM Usage</name>
+            <graph_items>
+                <graph_item><sortorder>0</sortorder><color>22BB55</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>ruijie.ram.free</key></item></graph_item>
+                <graph_item><sortorder>1</sortorder><color>FF7700</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>ruijie.ram.used.pct</key></item></graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>ef1c591649d146a8b17455cd5293d116</uuid>
+            <name>AP: Uplink (Gi0/1) Traffic</name>
+            <graph_items>
+                <graph_item><sortorder>0</sortorder><color>00AADD</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>if.uplink.in.bps</key></item></graph_item>
+                <graph_item><sortorder>1</sortorder><color>FF4444</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>if.uplink.out.bps</key></item></graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>62854c96281740cc85f66f53a042980b</uuid>
+            <name>AP: 2.4GHz Radio Traffic</name>
+            <graph_items>
+                <graph_item><sortorder>0</sortorder><color>00AADD</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>if.radio24.in.bps</key></item></graph_item>
+                <graph_item><sortorder>1</sortorder><color>FF4444</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>if.radio24.out.bps</key></item></graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <uuid>9fe8e0379dac42ebb1ddeabf015d1990</uuid>
+            <name>AP: 5GHz Radio Traffic</name>
+            <graph_items>
+                <graph_item><sortorder>0</sortorder><color>00AADD</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>if.radio5.in.bps</key></item></graph_item>
+                <graph_item><sortorder>1</sortorder><color>FF4444</color><item><host>Template SNMP Ruijie AP820-L V3</host><key>if.radio5.out.bps</key></item></graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>
